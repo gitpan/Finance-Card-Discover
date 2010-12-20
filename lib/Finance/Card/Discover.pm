@@ -7,7 +7,7 @@ use Carp qw(croak);
 use LWP::UserAgent;
 use URI;
 
-our $VERSION = '0.02';
+our $VERSION = '0.03';
 $VERSION = eval $VERSION;
 
 sub new {
@@ -79,7 +79,7 @@ sub _request {
 
     my $res = $self->{response} = $self->ua->post(
         $uri,
-        'If-SSL-Cert-Subject' => "/CN=\Q@{[$uri->host]}\E\$",
+        if_ssl_cert_subject => "/CN=(?i)\Q@{[$uri->host]}\E\$",
     );
     return unless $res->is_success;
 
@@ -116,7 +116,10 @@ Finance::Card::Discover - DiscoverCard account information and SOAN creation
         my $expiration = $account->expiration;
         printf "account: %s %s\n", $number, $expiration;
 
+        my $balance = $account->balance;
         my $profile = $account->profile;
+
+        my @transactions = $account->transactions;
 
         if (my $soan = $account->soan) {
             my $number = $soan->number;
@@ -132,7 +135,7 @@ Finance::Card::Discover - DiscoverCard account information and SOAN creation
             my $date     = $transaction->date;
             my $merchant = $transaction->merchant;
             my $amount   = $transaction->amount;
-            printf "transaction: %s %s %s\n", $date $amount, $merchant;
+            printf "transaction: %s %s %s\n", $date, $amount, $merchant;
         }
     }
 
@@ -181,10 +184,6 @@ L<http://www.discovercard.com/customer-service/security/create-soan.html>
 =head1 TODO
 
 =over
-
-=item * Balance via OFX
-
-=item * Statements via OFX
 
 =item * Other intersting request types found in the Flash app that are worth
 exploring:
