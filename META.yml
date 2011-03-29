@@ -1,6 +1,6 @@
 --- #YAML:1.0
 name:               Finance-Card-Discover
-version:            0.04
+version:            0.05
 abstract:           DiscoverCard account information and SOAN creation
 author:
     - gray <gray@cpan.org>
@@ -11,12 +11,12 @@ configure_requires:
 build_requires:
     Test::More:  0.82
 requires:
-    Crypt::SSLeay:   0
-    DateTime::Tiny:  0
-    LWP::UserAgent:  0
-    Object::Tiny:    0
-    URI:             1.36
-    XML::LibXML:     0
+    DateTime::Tiny:       0
+    LWP::Protocol::https:  6.02
+    LWP::UserAgent:       6.02
+    Object::Tiny:         0
+    URI:                  1.36
+    XML::LibXML:          0
 resources:
     repository:  http://github.com/gray/finance-card-discover
 no_index:
